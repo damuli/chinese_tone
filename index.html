@@ -9,13 +9,13 @@
         :root {
             --primary: #d32f2f;
             --secondary: #ffc107;
-            --bg-color: #2c3e50;
+            --bg-gradient: radial-gradient(circle at center, #2c3e50 0%, #000000 100%);
             --text-color: #ecf0f1;
         }
 
         body {
-            font-family: 'Microsoft JhengHei', sans-serif;
-            background: radial-gradient(circle at center, #1a252f 0%, #000000 100%);
+            font-family: 'Microsoft JhengHei', 'Heiti TC', sans-serif;
+            background: var(--bg-gradient);
             color: var(--text-color);
             display: flex;
             flex-direction: column;
@@ -23,112 +23,122 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden;
+            overflow: hidden; /* 防止捲動 */
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
+        /* 林老師專屬署名特效 */
         .developer-credit {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--secondary);
             margin-bottom: 20px;
             font-weight: bold;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
-            animation: glow 2s infinite alternate;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.6);
+            animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes glow {
-            from { opacity: 0.8; text-shadow: 0 0 5px #b78900; }
-            to { opacity: 1; text-shadow: 0 0 20px #ffc107; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         #game-container {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 2rem;
             border-radius: 25px;
             text-align: center;
-            width: 90%;
-            max-width: 550px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 85%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             position: relative;
         }
 
         h1 {
             color: #fff;
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 5px;
+            letter-spacing: 2px;
         }
 
         .status-bar {
             display: flex;
             justify-content: space-between;
             margin: 1.5rem 0;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
-            background: rgba(0,0,0,0.3);
-            padding: 12px 25px;
+            background: rgba(0,0,0,0.4);
+            padding: 12px 20px;
             border-radius: 50px;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* 播放按鈕特別強化 */
+        /* 播放按鈕 */
         #play-btn {
-            background: linear-gradient(135deg, #ff9800, #ff5722);
+            background: linear-gradient(135deg, #f39c12, #d35400);
             color: white;
             border: none;
-            padding: 15px 50px;
-            font-size: 1.5rem;
+            padding: 18px 40px;
+            font-size: 1.4rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            margin: 10px 0 20px 0;
-            transition: all 0.2s;
-            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.4);
+            margin: 10px 0 25px 0;
+            transition: transform 0.1s, filter 0.2s;
+            box-shadow: 0 8px 20px rgba(211, 84, 0, 0.4);
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
+            width: 80%;
         }
 
-        #play-btn:active { transform: scale(0.95); }
-        #play-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        #play-btn:disabled { filter: grayscale(1); cursor: wait; }
+        #play-btn:active { transform: scale(0.96); }
+        #play-btn:disabled { filter: grayscale(0.8); cursor: not-allowed; opacity: 0.8; }
 
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         .tone-btn {
-            background: linear-gradient(145deg, #d32f2f, #b71c1c);
+            background: linear-gradient(145deg, #c0392b, #922b21);
             color: white;
             border: none;
-            padding: 20px;
-            border-radius: 18px;
+            padding: 15px;
+            border-radius: 15px;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 6px 0 #7f0000;
+            box-shadow: 0 5px 0 #641e16;
             position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .tone-btn:hover { margin-top: -3px; padding-bottom: 23px; box-shadow: 0 9px 0 #7f0000; }
-        .tone-btn:active { margin-top: 3px; padding-bottom: 20px; box-shadow: 0 3px 0 #7f0000; }
+        .tone-btn:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
 
-        .tone-symbol { font-size: 2.8rem; display: block; margin-bottom: 5px; }
-        .tone-desc { font-size: 0.9rem; opacity: 0.8; font-weight: normal; }
+        .tone-symbol { font-size: 2.5rem; display: block; margin-bottom: 2px; font-weight: bold; }
+        .tone-desc { font-size: 0.85rem; opacity: 0.9; }
 
         /* 回饋區 */
         .feedback-area {
-            min-height: 50px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 10px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
@@ -143,18 +153,17 @@
         /* 進度條 */
         .progress-wrapper {
             width: 100%;
-            height: 8px;
+            height: 6px;
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             overflow: hidden;
         }
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #ffc107, #ff5722);
             width: 0%;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+            transition: width 0.3s ease;
         }
 
         /* 結算畫面 */
@@ -162,17 +171,13 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
         .big-score { 
-            font-size: 5rem; 
+            font-size: 4.5rem; 
             font-weight: 800; 
-            background: linear-gradient(to bottom, #ffd700, #ff8c00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--secondary);
             margin: 10px 0;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+            text-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
         }
         
-        .praise-text { font-size: 1.6rem; margin-bottom: 30px; line-height: 1.5; color: #fff; }
-
         .footer {
             margin-top: 30px;
             font-size: 0.8rem;
@@ -184,7 +189,7 @@
 <body>
 
     <div id="game-container">
-        <div style="margin-bottom: 10px;">
+        <div>
             <h1>🥋 功夫聲調大師</h1>
             <div class="developer-credit">開發者：林鴻瑞老師</div>
         </div>
@@ -228,13 +233,11 @@
 
         <div id="result-screen">
             <h1>🏆 修練完成 🏆</h1>
-            <p style="color:#aaa; margin-top:5px;">恭喜您</p>
+            <p style="color:#ddd; margin-top:10px; font-size: 1.2rem;">林鴻瑞老師 恭喜您</p>
             
-            <div>
-                <div class="big-score" id="final-score">0</div>
-            </div>
-
-            <div class="praise-text" id="final-praise"></div>
+            <div class="big-score" id="final-score">0</div>
+            
+            <div style="font-size:1.4rem; line-height:1.6; margin-bottom:30px;" id="final-praise"></div>
             
             <button id="play-btn" onclick="restartGame()">🔄 再次挑戰</button>
         </div>
@@ -247,8 +250,7 @@
     <audio id="sound-win" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.m4a"></audio>
 
     <script>
-        // 題庫：可以自由新增
-        // 為了確保發音清晰，這裡選用了單音節字
+        // 題目資料
         const questions = [
             { word: "媽", tone: 1, pinyin: "mā" },
             { word: "魚", tone: 2, pinyin: "yú" },
@@ -262,13 +264,9 @@
             { word: "不", tone: 4, pinyin: "bù" }
         ];
 
-        // 情緒價值：讚美詞庫
         const praises = [
-            "太神了！耳朵真靈！", 
-            "發音聽得很準喔！", 
-            "老師給你一個讚！", 
-            "答對了！繼續保持！", 
-            "Excellent! 好棒！"
+            "太神了！耳朵真靈！", "發音聽得很準喔！", 
+            "林老師給你一個讚！", "答對了！繼續保持！", "Excellent! 好棒！"
         ];
 
         let currentQuestionIndex = 0;
@@ -283,100 +281,115 @@
             
             const feedback = document.getElementById('feedback-text');
             feedback.innerText = "請點擊按鈕聽聲音...";
-            feedback.className = "feedback-area"; // 重置樣式
+            feedback.className = "feedback-area"; 
             
             const btns = document.querySelectorAll('.tone-btn');
             btns.forEach(btn => {
                 btn.style.opacity = "1";
                 btn.disabled = false;
-                btn.style.boxShadow = ""; // 重置陰影
+                btn.style.boxShadow = "0 5px 0 #641e16";
+                btn.style.transform = "translateY(0)";
             });
             isAnswering = true;
         }
 
-
-// 修正版：改用有道辭典 (Youdao) 的語音介面
-        // 這個介面通常比 Google 更穩定，不容易被擋
+        // --- 核心修改：雙保險發音系統 ---
         function playAudio() {
             const btn = document.getElementById('play-btn');
             const icon = document.getElementById('btn-icon');
             const text = document.getElementById('btn-text');
             
-            // 避免連點
             if (btn.disabled) return;
-
+            
+            // 狀態變更
             btn.disabled = true;
             text.innerText = "讀取中...";
+            icon.innerText = "⏳";
             
             const currentQ = questions[currentQuestionIndex];
+            const word = currentQ.word;
             
-            // 使用有道 (Youdao) 的真人發音 API
-            // type=0 為美式發音，但對中文來說，它會自動識別並朗讀
-            const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(currentQ.word)}&le=zh`;
+            // 策略1: 嘗試使用有道辭典真人發音 (較不易被擋)
+            const onlineUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(word)}&le=zh`;
+            const audio = new Audio(onlineUrl);
             
-            const audio = new Audio(audioUrl);
-            
+            // 設定超時機制：如果網路卡住超過 3 秒，強制切換備案
+            const timeoutId = setTimeout(() => {
+                console.log("網路逾時，切換備案...");
+                useBackupAudio(word, btn, text, icon);
+            }, 3000);
+
+            // 成功播放
             audio.oncanplaythrough = function() {
-                audio.play().catch(e => {
-                    console.error("Play error:", e);
-                    text.innerText = "播放失敗";
-                    btn.disabled = false;
-                });
+                clearTimeout(timeoutId); // 取消超時倒數
+                audio.play()
+                    .then(() => {
+                        resetPlayBtn(btn, text, icon);
+                    })
+                    .catch(err => {
+                        // 雖然載入成功但播放失敗(如瀏覽器阻擋)，切換備案
+                        console.error("播放受阻:", err);
+                        useBackupAudio(word, btn, text, icon);
+                    });
             };
 
-            audio.onended = function() {
-                btn.disabled = false;
-                text.innerText = "再聽一次";
-                icon.innerText = "🔊";
-            };
-
+            // 發生錯誤 (如 403 被擋)
             audio.onerror = function() {
-                console.error("Audio load error");
-                text.innerText = "音檔讀取失敗"; // 如果連有道都被擋，會顯示這個
-                btn.disabled = false;
-                // 備案：如果網路語音都失敗，自動切換回瀏覽器機器人聲音
-                speakFallback(currentQ.word);
+                clearTimeout(timeoutId);
+                console.log("網路音檔讀取失敗，切換備案...");
+                useBackupAudio(word, btn, text, icon);
             };
-            
+
             // 觸發載入
             audio.load();
         }
 
-        // 備用方案：瀏覽器機器人發音 (當網路語音失敗時使用)
-        function speakFallback(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'zh-TW';
-            utterance.rate = 0.8;
+        // 策略2 (備案): 瀏覽器內建合成音 (100% 可用)
+        function useBackupAudio(word, btn, text, icon) {
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'zh-TW'; // 設定為中文
+            utterance.rate = 0.8;     // 語速放慢
+            
+            utterance.onend = function() {
+                resetPlayBtn(btn, text, icon);
+            };
+            
+            utterance.onerror = function() {
+                resetPlayBtn(btn, text, icon); // 萬一連這個都失敗，至少復原按鈕
+            };
+
             window.speechSynthesis.speak(utterance);
             
-            const btn = document.getElementById('play-btn');
-            const textSpan = document.getElementById('btn-text');
-            btn.disabled = false;
-            textSpan.innerText = "再聽一次";
+            // 因為 speak 是非同步，我們假設它正在播放並復原按鈕文字
+            // 有些瀏覽器 onend 不準確，所以做個簡單延遲復原
+            setTimeout(() => {
+               if(btn.disabled) resetPlayBtn(btn, text, icon);
+            }, 1000);
         }
 
-   
+        function resetPlayBtn(btn, text, icon) {
+            btn.disabled = false;
+            text.innerText = "再聽一次";
+            icon.innerText = "🔊";
+        }
+        // --- 發音系統結束 ---
+
         function playSound(type) {
             const sound = document.getElementById(`sound-${type}`);
             if(sound) {
                 sound.currentTime = 0;
-                sound.play().catch(e => {}); // 忽略自動播放限制錯誤
+                sound.play().catch(e => {}); 
             }
         }
 
         function fireConfetti(scalar = 1) {
             const count = 200;
-            const defaults = {
-                origin: { y: 0.7 },
-                zIndex: 9999
-            };
-
+            const defaults = { origin: { y: 0.7 }, zIndex: 9999 };
             function fire(particleRatio, opts) {
                 confetti(Object.assign({}, defaults, opts, {
                     particleCount: Math.floor(count * particleRatio * scalar)
                 }));
             }
-
             fire(0.25, { spread: 26, startVelocity: 55 });
             fire(0.2, { spread: 60 });
             fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
@@ -392,44 +405,30 @@
             const feedback = document.getElementById('feedback-text');
 
             if (selectedTone === currentQ.tone) {
-                // Correct
                 score += 10;
                 document.getElementById('score').innerText = score;
-                
-                feedback.innerText = `✨ ${getRandomPraise()} (${currentQ.pinyin}) ✨`;
+                feedback.innerText = `✨ ${praises[Math.floor(Math.random()*praises.length)]} ✨`;
                 feedback.className = "feedback-area correct-style";
-                
                 playSound('correct');
                 fireConfetti(0.5); 
-                
             } else {
-                // Wrong
-                feedback.innerText = `哎呀！是 ${currentQ.tone} 聲 (${currentQ.pinyin})`;
+                feedback.innerText = `正確是: ${currentQ.tone} 聲 (${currentQ.pinyin})`;
                 feedback.className = "feedback-area wrong-style";
-                
                 playSound('wrong');
                 
                 // 標記正確答案
                 const btns = document.querySelectorAll('.tone-btn');
-                btns[currentQ.tone - 1].style.boxShadow = "0 0 20px #2ecc71";
+                btns[currentQ.tone - 1].style.boxShadow = "0 0 15px #2ecc71";
                 btns[currentQ.tone - 1].style.transform = "scale(1.05)";
             }
 
-            // 讓除了正確按鈕以外的變暗，凸顯答案
+            // 變暗非正確選項
             const btns = document.querySelectorAll('.tone-btn');
             btns.forEach((btn, index) => {
-                if (index + 1 !== currentQ.tone) {
-                    btn.style.opacity = "0.5";
-                }
+                if (index + 1 !== currentQ.tone) btn.style.opacity = "0.5";
             });
 
-            setTimeout(() => {
-                nextQuestion();
-            }, 1800);
-        }
-
-        function getRandomPraise() {
-            return praises[Math.floor(Math.random() * praises.length)];
+            setTimeout(() => { nextQuestion(); }, 1500);
         }
 
         function nextQuestion() {
@@ -445,28 +444,26 @@
             document.getElementById('game-screen').style.display = 'none';
             document.getElementById('result-screen').style.display = 'block';
             
-            // 分數動畫
-            let startScore = 0;
-            const endScore = score;
+            let finalScore = score;
+            let currentDisplay = 0;
             const scoreElement = document.getElementById('final-score');
             
+            // 分數跑動動畫
             const timer = setInterval(() => {
-                if(startScore < endScore) {
-                    startScore++;
-                    scoreElement.innerText = startScore;
+                if(currentDisplay < finalScore) {
+                    currentDisplay++;
+                    scoreElement.innerText = currentDisplay;
                 } else {
                     clearInterval(timer);
-                    triggerFinalCelebration(endScore);
+                    triggerFinalCelebration(finalScore);
                 }
-            }, 20);
+            }, 30);
         }
 
         function triggerFinalCelebration(finalScore) {
             let praise = "";
-            const praiseText = document.getElementById('final-praise');
-
             if (finalScore === 100) {
-                praise = "🌟 完美無缺！你是華語聽力之神！🌟<br>老師為你感到無比驕傲！";
+                praise = "🌟 完美無缺！你是華語聽力之神！🌟<br>林老師為你感到無比驕傲！";
                 playSound('win');
                 launchFireworks();
             } else if (finalScore >= 80) {
@@ -477,52 +474,34 @@
                 praise = "👍 做得好！你已經掌握了基本功！<br>繼續練習，你會越來越強！";
                 fireConfetti(0.5);
             } else {
-                praise = "💪 別灰心！聲調是大魔王。<br>老師陪你一起練習，下次一定行！";
+                praise = "💪 別灰心！聲調是大魔王。<br>林老師陪你一起練習，下次一定行！";
             }
-            praiseText.innerHTML = praise;
+            document.getElementById('final-praise').innerHTML = praise;
         }
 
         function launchFireworks() {
-            // 連續發射慶祝
             var duration = 3000;
             var end = Date.now() + duration;
-
             (function frame() {
-                confetti({
-                    particleCount: 5,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 }
-                });
-                confetti({
-                    particleCount: 5,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 }
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
 
         function restartGame() {
             currentQuestionIndex = 0;
             score = 0;
-            
             // 洗牌
             for (let i = questions.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [questions[i], questions[j]] = [questions[j], questions[i]];
             }
-
             document.getElementById('game-screen').style.display = 'block';
             document.getElementById('result-screen').style.display = 'none';
             updateUI();
         }
 
-        // 初始化
         updateUI();
     </script>
 </body>
