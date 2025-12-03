@@ -294,39 +294,68 @@
             isAnswering = true;
         }
 
-        // 核心修改：使用 Google 線上 TTS 接口
-        // 這會比瀏覽器內建的聲音更自然、更標準
+
+// 修正版：改用有道辭典 (Youdao) 的語音介面
+        // 這個介面通常比 Google 更穩定，不容易被擋
         function playAudio() {
             const btn = document.getElementById('play-btn');
             const icon = document.getElementById('btn-icon');
             const text = document.getElementById('btn-text');
             
-            // UI 反應：顯示載入中
+            // 避免連點
+            if (btn.disabled) return;
+
             btn.disabled = true;
             text.innerText = "讀取中...";
             
             const currentQ = questions[currentQuestionIndex];
-            const word = currentQ.word;
             
-            // Google TTS URL (client=tw-ob 是公開接口)
-            const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=zh-TW&q=${encodeURIComponent(word)}`;
+            // 使用有道 (Youdao) 的真人發音 API
+            // type=0 為美式發音，但對中文來說，它會自動識別並朗讀
+            const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(currentQ.word)}&le=zh`;
             
             const audio = new Audio(audioUrl);
             
-            // 處理播放
-            audio.play().then(() => {
-                // 播放成功
+            audio.oncanplaythrough = function() {
+                audio.play().catch(e => {
+                    console.error("Play error:", e);
+                    text.innerText = "播放失敗";
+                    btn.disabled = false;
+                });
+            };
+
+            audio.onended = function() {
                 btn.disabled = false;
                 text.innerText = "再聽一次";
                 icon.innerText = "🔊";
-            }).catch(error => {
-                // 播放失敗 (通常是因為網路問題)
-                console.error("Audio error:", error);
+            };
+
+            audio.onerror = function() {
+                console.error("Audio load error");
+                text.innerText = "音檔讀取失敗"; // 如果連有道都被擋，會顯示這個
                 btn.disabled = false;
-                text.innerText = "播放失敗";
-            });
+                // 備案：如果網路語音都失敗，自動切換回瀏覽器機器人聲音
+                speakFallback(currentQ.word);
+            };
+            
+            // 觸發載入
+            audio.load();
         }
 
+        // 備用方案：瀏覽器機器人發音 (當網路語音失敗時使用)
+        function speakFallback(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'zh-TW';
+            utterance.rate = 0.8;
+            window.speechSynthesis.speak(utterance);
+            
+            const btn = document.getElementById('play-btn');
+            const textSpan = document.getElementById('btn-text');
+            btn.disabled = false;
+            textSpan.innerText = "再聽一次";
+        }
+
+   
         function playSound(type) {
             const sound = document.getElementById(`sound-${type}`);
             if(sound) {
